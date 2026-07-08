@@ -1,0 +1,387 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>*{box-sizing:border-box}img{max-width:100%}</style>
+</head><body>
+<title>Rincon Motors — IAAI Phoenix Bid Sheet · Tuesday, July 14</title>
+<style>
+  :root {
+    --paper: #f5f3ef;
+    --panel: #fffdf9;
+    --panel-2: #efece4;
+    --ink: #201c16;
+    --ink-soft: #5c5648;
+    --ink-faint: #8a8371;
+    --line: #ddd6c7;
+    --line-strong: #c8bfa9;
+    --brass: #A8791E;
+    --brass-soft: #cba24a;
+    --go: #1f7a4d;
+    --go-bg: #dff0e6;
+    --warn: #9a6a12;
+    --warn-bg: #f6e7c8;
+    --walk: #a93529;
+    --walk-bg: #f4dcd7;
+    --shadow: 0 1px 2px rgba(40,32,10,.06), 0 8px 24px rgba(40,32,10,.05);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --paper: #16130f;
+      --panel: #211c16;
+      --panel-2: #2a251d;
+      --ink: #ece7dd;
+      --ink-soft: #b3ab99;
+      --ink-faint: #877f6c;
+      --line: #38312664;
+      --line: #362f24;
+      --line-strong: #4a4130;
+      --brass: #cba24a;
+      --brass-soft: #8a6a24;
+      --go: #63c793;
+      --go-bg: #17311f;
+      --warn: #e0ad55;
+      --warn-bg: #352a12;
+      --walk: #e58a7c;
+      --walk-bg: #37201c;
+      --shadow: 0 1px 2px rgba(0,0,0,.3), 0 10px 30px rgba(0,0,0,.35);
+    }
+  }
+  :root[data-theme="light"] {
+    --paper: #f5f3ef; --panel: #fffdf9; --panel-2: #efece4; --ink: #201c16;
+    --ink-soft: #5c5648; --ink-faint: #8a8371; --line: #ddd6c7; --line-strong: #c8bfa9;
+    --brass: #A8791E; --brass-soft: #cba24a; --go: #1f7a4d; --go-bg: #dff0e6;
+    --warn: #9a6a12; --warn-bg: #f6e7c8; --walk: #a93529; --walk-bg: #f4dcd7;
+    --shadow: 0 1px 2px rgba(40,32,10,.06), 0 8px 24px rgba(40,32,10,.05);
+  }
+  :root[data-theme="dark"] {
+    --paper: #16130f; --panel: #211c16; --panel-2: #2a251d; --ink: #ece7dd;
+    --ink-soft: #b3ab99; --ink-faint: #877f6c; --line: #362f24; --line-strong: #4a4130;
+    --brass: #cba24a; --brass-soft: #8a6a24; --go: #63c793; --go-bg: #17311f;
+    --warn: #e0ad55; --warn-bg: #352a12; --walk: #e58a7c; --walk-bg: #37201c;
+    --shadow: 0 1px 2px rgba(0,0,0,.3), 0 10px 30px rgba(0,0,0,.35);
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: "Segoe UI", system-ui, -apple-system, Roboto, Helvetica, Arial, sans-serif;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: 1200px; margin: 0 auto; padding: clamp(20px, 4vw, 44px) clamp(16px, 3vw, 32px) 72px; }
+
+  .eyebrow {
+    font-size: 12px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase;
+    color: var(--brass); margin: 0 0 10px;
+  }
+  h1 {
+    font-size: clamp(26px, 4.4vw, 40px); line-height: 1.05; margin: 0 0 8px;
+    letter-spacing: -.02em; text-wrap: balance; font-weight: 800;
+  }
+  .sub { color: var(--ink-soft); font-size: 15px; max-width: 62ch; margin: 0; }
+  .rule { height: 3px; background: linear-gradient(90deg, var(--brass), transparent 62%); border: 0; margin: 20px 0 28px; border-radius: 2px; }
+
+  /* summary tiles */
+  .tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; margin-bottom: 26px; }
+  .tile {
+    background: var(--panel); border: 1px solid var(--line); border-radius: 12px;
+    padding: 14px 16px; box-shadow: var(--shadow);
+  }
+  .tile .k { font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--ink-faint); font-weight: 700; }
+  .tile .v { font-size: 26px; font-weight: 800; margin-top: 4px; font-variant-numeric: tabular-nums; letter-spacing: -.01em; }
+  .tile .v small { font-size: 13px; font-weight: 600; color: var(--ink-soft); }
+
+  /* assumptions panel */
+  .assump {
+    background: var(--panel); border: 1px solid var(--line); border-radius: 14px;
+    padding: 18px 18px 20px; margin-bottom: 26px; box-shadow: var(--shadow);
+  }
+  .assump h2 { font-size: 13px; letter-spacing: .1em; text-transform: uppercase; margin: 0 0 4px; color: var(--ink); }
+  .assump p { margin: 0 0 16px; font-size: 13px; color: var(--ink-soft); }
+  .fields { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 14px; }
+  .field { display: flex; flex-direction: column; gap: 5px; }
+  .field label { font-size: 11px; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; color: var(--ink-soft); }
+  .field .inp { display: flex; align-items: center; gap: 6px; background: var(--panel-2); border: 1px solid var(--line); border-radius: 8px; padding: 0 10px; }
+  .field .inp span { color: var(--ink-faint); font-size: 14px; font-weight: 600; }
+  .field input {
+    width: 100%; border: 0; background: transparent; color: var(--ink);
+    font: 600 15px/1 ui-monospace, "SF Mono", "Cascadia Mono", Menlo, Consolas, monospace;
+    padding: 9px 0; text-align: right; font-variant-numeric: tabular-nums;
+  }
+  .field input:focus { outline: none; }
+  .field .inp:focus-within { border-color: var(--brass); box-shadow: 0 0 0 3px color-mix(in srgb, var(--brass) 22%, transparent); }
+
+  /* table */
+  .tablecard { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; box-shadow: var(--shadow); overflow: hidden; }
+  .scroll { overflow-x: auto; }
+  table { border-collapse: collapse; width: 100%; min-width: 940px; }
+  thead th {
+    position: sticky; top: 0; z-index: 2;
+    background: var(--panel-2); color: var(--ink-soft);
+    font-size: 10.5px; letter-spacing: .06em; text-transform: uppercase; font-weight: 700;
+    text-align: right; padding: 12px 12px; white-space: nowrap; border-bottom: 1px solid var(--line-strong);
+  }
+  thead th.l { text-align: left; }
+  tbody td { padding: 10px 12px; border-bottom: 1px solid var(--line); font-size: 14px; text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+  tbody tr:last-child td { border-bottom: 0; }
+  tbody tr:hover { background: color-mix(in srgb, var(--brass) 6%, transparent); }
+  td.l { text-align: left; }
+  .car { font-weight: 700; color: var(--ink); }
+  .meta { display: block; font-size: 11.5px; color: var(--ink-faint); font-weight: 500; margin-top: 2px; white-space: normal; max-width: 30ch; }
+  .stock { font: 600 12px ui-monospace, Menlo, monospace; color: var(--ink-soft); }
+
+  /* editable cells */
+  td.edit { padding: 4px; }
+  td.edit input {
+    width: 92px; border: 1px solid transparent; background: color-mix(in srgb, var(--brass) 7%, transparent);
+    border-radius: 6px; padding: 7px 8px; text-align: right; color: var(--ink);
+    font: 600 14px ui-monospace, Menlo, Consolas, monospace; font-variant-numeric: tabular-nums;
+  }
+  td.edit input:hover { border-color: var(--line-strong); }
+  td.edit input:focus { outline: none; border-color: var(--brass); background: var(--panel); box-shadow: 0 0 0 3px color-mix(in srgb, var(--brass) 20%, transparent); }
+
+  .packcell { text-align: center; }
+  .packcell input { width: 17px; height: 17px; accent-color: var(--brass); cursor: pointer; }
+  .packcell.na { color: var(--ink-faint); font-size: 11px; }
+
+  .maxbid { font-weight: 800; font-size: 15px; }
+  .pill { display: inline-block; padding: 3px 9px; border-radius: 999px; font-size: 11px; font-weight: 800; letter-spacing: .03em; text-transform: uppercase; }
+  .pill.go { background: var(--go-bg); color: var(--go); }
+  .pill.tight { background: var(--warn-bg); color: var(--warn); }
+  .pill.walk { background: var(--walk-bg); color: var(--walk); }
+  .head-pos { color: var(--go); font-weight: 700; }
+  .head-neg { color: var(--walk); font-weight: 700; }
+
+  .flag { display: inline-block; font-size: 10px; font-weight: 800; letter-spacing: .04em; padding: 1px 5px; border-radius: 4px; margin-left: 5px; vertical-align: middle; }
+  .flag.dep { background: var(--walk-bg); color: var(--walk); }
+  .flag.nokey { background: var(--warn-bg); color: var(--warn); }
+  .flag.run { background: var(--go-bg); color: var(--go); }
+
+  .legend { display: flex; flex-wrap: wrap; gap: 16px 22px; margin-top: 20px; font-size: 12.5px; color: var(--ink-soft); }
+  .legend b { color: var(--ink); }
+  .foot { margin-top: 28px; font-size: 12px; color: var(--ink-faint); line-height: 1.6; max-width: 80ch; }
+  .foot code { background: var(--panel-2); padding: 1px 5px; border-radius: 4px; font-size: 11px; }
+  .reset { float: right; font: 700 11px/1 system-ui; letter-spacing: .05em; text-transform: uppercase; color: var(--brass); background: none; border: 1px solid var(--line-strong); border-radius: 7px; padding: 8px 12px; cursor: pointer; }
+  .reset:hover { background: color-mix(in srgb, var(--brass) 10%, transparent); }
+  .reset:focus-visible { outline: 2px solid var(--brass); outline-offset: 2px; }
+</style>
+
+<div class="wrap">
+  <p class="eyebrow">Rincon Motors · Salvage Sourcing</p>
+  <h1>IAAI Phoenix — Hybrid &amp; EV Bid Sheet</h1>
+  <p class="sub">Tuesday, July 14 · 11:30&nbsp;AM · Phoenix branch. All 49 hybrid/EV lots from the run (34 run &amp; drive), priced to a walk-away ceiling. <b>Edit any blue number</b> — retail, recon, or the assumptions — and every max bid recomputes live.</p>
+  <hr class="rule" />
+
+  <div class="tiles">
+    <div class="tile"><div class="k">Lots priced</div><div class="v" id="t-count">49</div></div>
+    <div class="tile"><div class="k">Green — bid it</div><div class="v" id="t-go" style="color:var(--go)">–</div></div>
+    <div class="tile"><div class="k">Total ceiling capital</div><div class="v" id="t-cap">–</div></div>
+    <div class="tile"><div class="k">Projected gross margin</div><div class="v" id="t-margin">–</div></div>
+  </div>
+
+  <div class="assump">
+    <button class="reset" id="reset" type="button">Reset defaults</button>
+    <h2>Deal assumptions</h2>
+    <p>These drive every ceiling. Tune them to how you actually recon and sell, then leave them.</p>
+    <div class="fields">
+      <div class="field"><label for="a-fee">Auction fee %</label><div class="inp"><input id="a-fee" type="number" value="8" step="0.5"><span>%</span></div></div>
+      <div class="field"><label for="a-feeflat">Flat fees (gate+env+doc)</label><div class="inp"><span>$</span><input id="a-feeflat" type="number" value="180" step="10"></div></div>
+      <div class="field"><label for="a-transport">Transport to shop</label><div class="inp"><span>$</span><input id="a-transport" type="number" value="150" step="25"></div></div>
+      <div class="field"><label for="a-margin">Target margin %</label><div class="inp"><input id="a-margin" type="number" value="22" step="1"><span>%</span></div></div>
+      <div class="field"><label for="a-hold">Holding $/day</label><div class="inp"><span>$</span><input id="a-hold" type="number" value="12" step="1"></div></div>
+      <div class="field"><label for="a-days">Days on lot</label><div class="inp"><input id="a-days" type="number" value="30" step="5"></div></div>
+      <div class="field"><label for="a-pack">NiMH pack rebuild cost</label><div class="inp"><span>$</span><input id="a-pack" type="number" value="1800" step="100"></div></div>
+    </div>
+  </div>
+
+  <div class="tablecard">
+    <div class="scroll">
+      <table>
+        <thead>
+          <tr>
+            <th class="l">Vehicle</th>
+            <th class="l">Condition</th>
+            <th>Target retail</th>
+            <th>Recon</th>
+            <th>Pack</th>
+            <th>Max bid</th>
+            <th>Cur. bid</th>
+            <th>Headroom</th>
+            <th class="l">Call</th>
+          </tr>
+        </thead>
+        <tbody id="rows"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="legend">
+    <span><span class="pill go">Bid</span> ceiling clears current bid with room</span>
+    <span><span class="pill tight">Tight</span> &lt; $500 of headroom left</span>
+    <span><span class="pill walk">Walk</span> ceiling at/below current bid</span>
+    <span><span class="flag run">R&amp;D</span> runs &amp; drives</span>
+    <span><span class="flag dep">DEPLOYED</span> airbag recon</span>
+    <span><span class="flag nokey">NO KEY</span> unknown power-up</span>
+  </div>
+
+  <p class="foot">
+    <b>How the ceiling is built:</b> <code>Max bid = (Retail − Margin − Recon − Pack − Transport − Holding − Flat fees) ÷ (1 + Fee%)</code>. Margin is a % of target retail; the fee % is applied to the bid itself. <b>Retail = rebuilt/salvage-title AZ resale, not clean value.</b>
+    <br><br>
+    <b>The pack toggle</b> only appears for NiMH hybrids (Prius / RAV4H / Highlander / Crosstrek) you can rebuild from sourced modules — check it to bake in the worst case. Teslas, the Leaf, the Kia Niro and the 2025 Civic Hybrid run Li-ion packs with no cheap rebuild; their notes say so and you bid to worst case regardless.
+    <br><br>
+    Retail and recon figures are my starting estimates — <b>overwrite them with your own comps and shop numbers.</b> Current bids are as of the sale list export and will climb live Thursday.
+  </p>
+</div>
+
+<script>
+  const DEFAULTS = {
+    fee: 8, feeflat: 180, transport: 150, margin: 22, hold: 12, days: 30, pack: 1800
+  };
+
+  // 13 hybrid/EV lots from the Tucson run. retail = rebuilt-title AZ resale estimate.
+  const CARS = [
+    { stock:"44814116", car:"2025 Toyota Grand Highlander", meta:"19,572 mi · Front End", run:1, key:1, dep:1, note:"Deployed airbags", packType:"nimh", pack:0, retail:31000, recon:4300, cur:0 },
+    { stock:"45359391", car:"2025 Tesla Model Y", meta:"28,952 mi · Front End · AWD", run:1, key:1, dep:0, note:"Li-ion — no cheap pack", packType:"liion", pack:0, retail:25500, recon:2500, cur:0 },
+    { stock:"45329443", car:"2025 Toyota Rav4 Hybrid", meta:"28,015 mi · Rear", run:1, key:1, dep:0, note:"Run & drive", packType:"nimh", pack:0, retail:22250, recon:2500, cur:0 },
+    { stock:"45143390", car:"2023 Tesla Model Y", meta:"32,271 mi · Right Rear · AWD", run:1, key:1, dep:0, note:"Li-ion — no cheap pack", packType:"liion", pack:0, retail:18750, recon:2300, cur:0 },
+    { stock:"44883681", car:"2026 Lucid Gravity", meta:"1,629 mi · Left Front", run:1, key:1, dep:0, note:"Li-ion — no cheap pack", packType:"liion", pack:0, retail:18250, recon:2300, cur:1150 },
+    { stock:"45328129", car:"2025 Toyota Tacoma Hybrid", meta:"10,484 mi · Left Front", run:1, key:1, dep:1, note:"Deployed airbags", packType:"nimh", pack:0, retail:18250, recon:4800, cur:6100 },
+    { stock:"45213020", car:"2025 Honda Civic Hybrid", meta:"25,692 mi · Front & Rear", run:1, key:1, dep:1, note:"Deployed airbags", packType:"nimh", pack:0, retail:17750, recon:4800, cur:0 },
+    { stock:"45342731", car:"2024 Toyota Prius", meta:"36,569 mi · Left Front", run:1, key:1, dep:0, note:"Run & drive", packType:"nimh", pack:0, retail:16250, recon:1600, cur:2050 },
+    { stock:"45378576", car:"2024 Nissan Ariya", meta:"31,394 mi · Front End", run:1, key:1, dep:0, note:"Li-ion — no cheap pack", packType:"liion", pack:0, retail:15250, recon:1800, cur:25 },
+    { stock:"45150602", car:"2024 Toyota Corolla", meta:"39,054 mi · Front End", run:1, key:1, dep:1, note:"Deployed airbags", packType:"nimh", pack:0, retail:15000, recon:4300, cur:0 },
+    { stock:"45395817", car:"2022 Toyota Rav4 Hybrid", meta:"34,940 mi · Left Front", run:1, key:1, dep:0, note:"Run & drive", packType:"nimh", pack:0, retail:14000, recon:2300, cur:0 },
+    { stock:"45211376", car:"2023 Chevrolet Bolt Euv", meta:"23,282 mi · Front End", run:1, key:1, dep:0, note:"Li-ion — no cheap pack", packType:"liion", pack:0, retail:13250, recon:1800, cur:25 },
+    { stock:"45286929", car:"2022 Tesla Model 3", meta:"55,289 mi · Left Side", run:1, key:1, dep:0, note:"Li-ion — no cheap pack", packType:"liion", pack:0, retail:13000, recon:2200, cur:0 },
+    { stock:"45208227", car:"2021 Tesla Model Y", meta:"82,059 mi · Left Front · AWD", run:1, key:1, dep:1, note:"Deployed airbags, li-ion — no cheap pack", packType:"liion", pack:0, retail:13000, recon:4100, cur:0 },
+    { stock:"45457540", car:"2019 Lexus Rx 450H", meta:"57,963 mi · Right Front", run:1, key:1, dep:0, note:"Run & drive", packType:"nimh", pack:0, retail:11250, recon:2300, cur:25 },
+    { stock:"45494338", car:"2019 Audi E-Tron", meta:"72,709 mi · Normal Wear & Tear", run:1, key:1, dep:0, note:"Li-ion — no cheap pack, clear title", packType:"liion", pack:0, retail:10500, recon:700, cur:0 },
+    { stock:"45310094", car:"2021 Toyota Venza", meta:"44,393 mi · Front End", run:1, key:1, dep:0, note:"Run & drive", packType:"nimh", pack:0, retail:9500, recon:2500, cur:25 },
+    { stock:"45403554", car:"2021 Toyota Venza", meta:"65,919 mi · Rear", run:1, key:1, dep:0, note:"Run & drive", packType:"nimh", pack:0, retail:9250, recon:1800, cur:0 },
+    { stock:"45433088", car:"2020 Toyota Camry", meta:"90,580 mi · Front End", run:1, key:1, dep:1, note:"Deployed airbags", packType:"nimh", pack:0, retail:8750, recon:4300, cur:0 },
+    { stock:"45411856", car:"2020 Toyota Prius", meta:"102,267 mi · Rear", run:1, key:1, dep:0, note:"Run & drive", packType:"nimh", pack:0, retail:7750, recon:1800, cur:25 },
+    { stock:"45406689", car:"2015 Lexus Es 300H", meta:"58,659 mi · Right Side", run:1, key:1, dep:0, note:"Run & drive", packType:"nimh", pack:1, retail:6000, recon:1500, cur:25 },
+    { stock:"44886023", car:"2018 Bmw 530E", meta:"72,663 mi · Undercarriage", run:1, key:1, dep:0, note:"Li-ion — no cheap pack", packType:"liion", pack:0, retail:5750, recon:1500, cur:0 },
+    { stock:"44895999", car:"2019 Hyundai Ioniq Hybrid", meta:"157,248 mi · Rear", run:1, key:1, dep:0, note:"Li-ion — no cheap pack", packType:"liion", pack:0, retail:5250, recon:1800, cur:25 },
+    { stock:"45305739", car:"2015 Lexus Ct 200H", meta:"174,203 mi · Front End", run:1, key:1, dep:0, note:"Run & drive", packType:"nimh", pack:1, retail:4750, recon:2500, cur:0 },
+    { stock:"44544932", car:"2015 Lexus Rx 450H", meta:"182,018 mi · Left Rear", run:1, key:1, dep:0, note:"Run & drive", packType:"nimh", pack:1, retail:4500, recon:1600, cur:0 },
+    { stock:"45051736", car:"2015 Toyota Prius C", meta:"odo exempt · Left Front", run:1, key:1, dep:0, note:"Run & drive", packType:"nimh", pack:1, retail:3750, recon:2300, cur:0 },
+    { stock:"45449174", car:"2015 Ford C-Max Energi", meta:"odo exempt · Right Rear", run:1, key:1, dep:0, note:"Run & drive", packType:"nimh", pack:1, retail:3500, recon:2300, cur:25 },
+    { stock:"45447077", car:"2014 Porsche Panamera E-Hybrid", meta:"odo exempt · Left Rear", run:1, key:1, dep:0, note:"Li-ion — no cheap pack", packType:"liion", pack:0, retail:3000, recon:2300, cur:25 },
+    { stock:"44076274", car:"2013 Toyota Prius C", meta:"119,563 mi · Right Front", run:1, key:1, dep:1, note:"Deployed airbags", packType:"nimh", pack:1, retail:2750, recon:4800, cur:0 },
+    { stock:"45029760", car:"2014 Toyota Camry Hybrid", meta:"179,274 mi · Rear", run:1, key:1, dep:0, note:"Run & drive", packType:"nimh", pack:1, retail:2500, recon:1800, cur:0 },
+    { stock:"45342651", car:"2012 Chevrolet Volt", meta:"103,299 mi · Front End", run:1, key:1, dep:1, note:"Deployed airbags, li-ion — no cheap pack", packType:"liion", pack:0, retail:2250, recon:5000, cur:0 },
+    { stock:"45384815", car:"2012 Chevrolet Volt", meta:"232,659 mi · Right Front", run:1, key:1, dep:0, note:"Li-ion — no cheap pack", packType:"liion", pack:0, retail:1500, recon:2300, cur:0 },
+    { stock:"45385398", car:"2008 Toyota Prius", meta:"odo exempt · Front End", run:1, key:1, dep:0, note:"Run & drive", packType:"nimh", pack:1, retail:1500, recon:1800, cur:0 },
+    { stock:"45413785", car:"2007 Toyota Prius", meta:"odo exempt · Left Front", run:1, key:1, dep:0, note:"Run & drive", packType:"nimh", pack:1, retail:1500, recon:2300, cur:0 },
+    { stock:"45085278", car:"2025 Ford Maverick", meta:"odo exempt · Front End", run:0, key:1, dep:1, note:"Deployed airbags, stationary", packType:"nimh", pack:0, retail:19500, recon:4300, cur:25 },
+    { stock:"45324122", car:"2023 Tesla Model Y", meta:"60,166 mi · Left Front · AWD", run:0, key:1, dep:0, note:"Starts, li-ion — no cheap pack", packType:"liion", pack:0, retail:18000, recon:2300, cur:25 },
+    { stock:"45103812", car:"2025 Honda Cr-V Hybrid", meta:"27,074 mi · Left Side", run:0, key:1, dep:1, note:"Deployed airbags, starts", packType:"nimh", pack:0, retail:17750, recon:4700, cur:0 },
+    { stock:"45003947", car:"2025 Toyota Corolla", meta:"35,503 mi · Left Front", run:0, key:1, dep:1, note:"Deployed airbags, starts", packType:"nimh", pack:0, retail:17500, recon:4800, cur:25 },
+    { stock:"45291151", car:"2024 Ford Maverick", meta:"odo exempt · Left Side", run:0, key:1, dep:1, note:"Deployed airbags, stationary", packType:"nimh", pack:0, retail:16500, recon:4000, cur:0 },
+    { stock:"45328683", car:"2023 Tesla Model 3", meta:"80,259 mi · Left Front", run:0, key:0, dep:0, note:"No key, li-ion — no cheap pack", packType:"liion", pack:0, retail:14250, recon:2600, cur:0 },
+    { stock:"45436962", car:"2022 Tesla Model 3", meta:"70,912 mi · Rear · AWD", run:0, key:1, dep:0, note:"Starts, li-ion — no cheap pack", packType:"liion", pack:0, retail:12500, recon:1800, cur:0 },
+    { stock:"45419822", car:"2018 Bmw 330E", meta:"58,555 mi · Right Front", run:0, key:1, dep:1, note:"Deployed airbags, stationary, li-ion — no cheap pack", packType:"liion", pack:0, retail:5750, recon:4800, cur:0 },
+    { stock:"45324425", car:"2019 Chevrolet Bolt Ev", meta:"119,072 mi · Front End", run:0, key:1, dep:1, note:"Deployed airbags, li-ion — no cheap pack", packType:"liion", pack:0, retail:5750, recon:5000, cur:25 },
+    { stock:"44891817", car:"2018 Lincoln Mkz Hybrid", meta:"43,068 mi · Front End", run:0, key:1, dep:0, note:"Stationary, li-ion — no cheap pack", packType:"liion", pack:0, retail:5750, recon:1800, cur:125 },
+    { stock:"45074298", car:"2015 Chevrolet Volt", meta:"106,761 mi · Left Side", run:0, key:1, dep:1, note:"Deployed airbags, li-ion — no cheap pack", packType:"liion", pack:0, retail:3500, recon:4000, cur:25 },
+    { stock:"45241110", car:"2015 Kia Optima Hybrid", meta:"odo exempt · Suspension", run:0, key:1, dep:0, note:"Starts, li-ion — no cheap pack", packType:"liion", pack:0, retail:3500, recon:2200, cur:25 },
+    { stock:"45052680", car:"2017 Toyota Prius", meta:"179,078 mi · Front End", run:0, key:0, dep:0, note:"No key, stationary", packType:"nimh", pack:1, retail:3250, recon:2100, cur:0 },
+    { stock:"44173048", car:"2010 Toyota Camry Hybrid", meta:"127,610 mi · Front End", run:0, key:1, dep:1, note:"Deployed airbags, starts", packType:"nimh", pack:1, retail:1750, recon:5000, cur:0 },
+    { stock:"45337832", car:"2007 Lexus Rx 400H", meta:"224,479 mi · Left Rear", run:0, key:0, dep:0, note:"No key, stationary", packType:"nimh", pack:1, retail:1500, recon:1900, cur:0 },
+  ];
+
+  const $ = id => document.getElementById(id);
+  const money = n => (n<0?"-$":"$") + Math.abs(Math.round(n)).toLocaleString("en-US");
+  const A = {};
+  ["fee","feeflat","transport","margin","hold","days","pack"].forEach(k => A[k] = $("a-"+k));
+
+  function flags(c){
+    let f = "";
+    if (c.run) f += '<span class="flag run">R&amp;D</span>';
+    if (c.dep) f += '<span class="flag dep">DEPLOYED</span>';
+    if (!c.key) f += '<span class="flag nokey">NO KEY</span>';
+    return f;
+  }
+
+  function buildRows(){
+    const tb = $("rows");
+    tb.innerHTML = "";
+    CARS.forEach((c, i) => {
+      const tr = document.createElement("tr");
+      let packCell;
+      if (c.packType === "nimh") {
+        packCell = `<td class="packcell"><input type="checkbox" data-i="${i}" class="pk" ${c.pack?"checked":""} title="Bake in a NiMH pack rebuild"></td>`;
+      } else {
+        packCell = `<td class="packcell na" title="Li-ion pack — no cheap rebuild">Li-ion</td>`;
+      }
+      tr.innerHTML = `
+        <td class="l"><span class="car">${c.car}</span> ${flags(c)}<span class="meta">${c.note}</span></td>
+        <td class="l"><span class="stock">#${c.stock}</span><span class="meta">${c.meta}</span></td>
+        <td class="edit"><input type="number" data-i="${i}" data-f="retail" value="${c.retail}" step="250" aria-label="Target retail"></td>
+        <td class="edit"><input type="number" data-i="${i}" data-f="recon" value="${c.recon}" step="100" aria-label="Recon"></td>
+        ${packCell}
+        <td class="maxbid" data-mb="${i}">–</td>
+        <td>${c.cur ? money(c.cur) : "<span style='color:var(--ink-faint)'>—</span>"}</td>
+        <td data-hr="${i}">–</td>
+        <td class="l" data-call="${i}">–</td>`;
+      tb.appendChild(tr);
+    });
+    tb.querySelectorAll("input[data-f]").forEach(inp => inp.addEventListener("input", e => {
+      CARS[+e.target.dataset.i][e.target.dataset.f] = +e.target.value || 0; compute();
+    }));
+    tb.querySelectorAll("input.pk").forEach(inp => inp.addEventListener("change", e => {
+      CARS[+e.target.dataset.i].pack = e.target.checked ? 1 : 0; compute();
+    }));
+  }
+
+  function compute(){
+    const fee = (+A.fee.value||0)/100;
+    const feeflat = +A.feeflat.value||0;
+    const transport = +A.transport.value||0;
+    const marginPct = (+A.margin.value||0)/100;
+    const holding = (+A.hold.value||0) * (+A.days.value||0);
+    const packCost = +A.pack.value||0;
+
+    let goCount = 0, capital = 0, grossMargin = 0;
+
+    CARS.forEach((c, i) => {
+      const pack = (c.packType==="nimh" && c.pack) ? packCost : 0;
+      const margin = c.retail * marginPct;
+      const maxbid = (c.retail - margin - c.recon - pack - transport - holding - feeflat) / (1 + fee);
+      const headroom = maxbid - c.cur;
+
+      const mbEl = document.querySelector(`[data-mb="${i}"]`);
+      const hrEl = document.querySelector(`[data-hr="${i}"]`);
+      const callEl = document.querySelector(`[data-call="${i}"]`);
+
+      mbEl.textContent = maxbid > 0 ? money(maxbid) : money(0);
+
+      let cls, label;
+      if (maxbid <= 0 || headroom <= 0) { cls="walk"; label="Walk"; }
+      else if (headroom < 500) { cls="tight"; label="Tight"; }
+      else { cls="go"; label="Bid"; goCount++; capital += maxbid; grossMargin += margin; }
+
+      hrEl.innerHTML = maxbid>0
+        ? `<span class="${headroom>=0?'head-pos':'head-neg'}">${money(headroom)}</span>`
+        : `<span class="head-neg">${money(maxbid - c.cur)}</span>`;
+      callEl.innerHTML = `<span class="pill ${cls}">${label}</span>`;
+    });
+
+    $("t-go").textContent = goCount;
+    $("t-cap").innerHTML = money(capital) + ' <small>if you win every green</small>';
+    $("t-margin").innerHTML = money(grossMargin) + ' <small>target gross</small>';
+  }
+
+  Object.values(A).forEach(inp => inp.addEventListener("input", compute));
+  $("reset").addEventListener("click", () => {
+    Object.keys(DEFAULTS).forEach(k => A[k].value = DEFAULTS[k]);
+    compute();
+  });
+
+  buildRows();
+  compute();
+</script>
+</body></html>

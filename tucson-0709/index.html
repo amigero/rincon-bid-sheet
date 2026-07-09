@@ -118,7 +118,7 @@
   /* table */
   .tablecard { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; box-shadow: var(--shadow); overflow: hidden; }
   .scroll { overflow-x: auto; }
-  table { border-collapse: collapse; width: 100%; min-width: 940px; }
+  table { border-collapse: collapse; width: 100%; min-width: 1060px; }
   thead th {
     position: sticky; top: 0; z-index: 2;
     background: var(--panel-2); color: var(--ink-soft);
@@ -149,6 +149,8 @@
   .packcell.na { color: var(--ink-faint); font-size: 11px; }
 
   .maxbid { font-weight: 800; font-size: 15px; }
+  .azmkt { font-weight: 700; color: var(--ink-soft); }
+  .azmkt .meta { color: var(--ink-faint); }
   .pill { display: inline-block; padding: 3px 9px; border-radius: 999px; font-size: 11px; font-weight: 800; letter-spacing: .03em; text-transform: uppercase; }
   .pill.go { background: var(--go-bg); color: var(--go); }
   .pill.tight { background: var(--warn-bg); color: var(--warn); }
@@ -204,6 +206,7 @@
           <tr>
             <th class="l">Vehicle</th>
             <th class="l">Condition</th>
+            <th>AZ market</th>
             <th>Target retail</th>
             <th>Recon</th>
             <th>Pack</th>
@@ -232,7 +235,7 @@
     <br><br>
     <b>The pack toggle</b> only appears for NiMH hybrids (Prius / RAV4H / Highlander / Crosstrek) you can rebuild from sourced modules — check it to bake in the worst case. Teslas, the Leaf, the Kia Niro and the 2025 Civic Hybrid run Li-ion packs with no cheap rebuild; their notes say so and you bid to worst case regardless.
     <br><br>
-    Retail and recon figures are my starting estimates — <b>overwrite them with your own comps and shop numbers.</b> Current bids are as of the sale list export and will climb live Thursday.
+    <b>AZ market</b> is the median asking price of clean-title used listings in Arizona, pulled live from Marketcheck (falls back to a national median, shown as <b>US</b>, when Arizona stock is too thin to be meaningful). It's a <b>clean-title retail</b> reference — rebuilt/salvage resale usually runs <b>65–75%</b> of it, so haircut it before trusting Target retail. Retail and recon figures are my starting estimates — <b>overwrite them with your own comps and shop numbers.</b> Current bids are as of the sale list export and will climb live Thursday.
   </p>
 </div>
 
@@ -277,19 +280,19 @@
 
   // 13 hybrid/EV lots from the Tucson run. retail = rebuilt-title AZ resale estimate.
   const CARS = [
-    { stock:"45037244", car:"2022 Tesla Model Y Performance", meta:"58,715 mi · R front · AWD", run:1, key:1, dep:0, note:"Li-ion — no cheap pack. Crowd favorite, fees stack fast.", packType:"liion", retail:24000, recon:4500, cur:4550 },
-    { stock:"44843664", car:"2023 Tesla Model Y Long Range", meta:"exempt odo · L rear · AWD", run:0, key:1, dep:1, note:"Deployed airbags + Li-ion. Rear collision + safety reset.", packType:"liion", retail:25000, recon:6500, cur:2550 },
-    { stock:"45129458", car:"2014 Tesla Model S P85", meta:"exempt odo · front end · dash inop", run:0, key:0, dep:0, note:"No key + dead dash + Li-ion = buying blind on HV pack.", packType:"liion", retail:9000, recon:6000, cur:0 },
-    { stock:"44847399", car:"2025 Honda Civic Hybrid Sport", meta:"16,138 mi · front end", run:0, key:1, dep:1, note:"Near-new, but deployed airbags + Li-ion. Big recon line.", packType:"liion", retail:22000, recon:5500, cur:0 },
-    { stock:"45361098", car:"2022 Toyota RAV4 Hybrid XSE", meta:"exempt odo · L side · stationary", run:0, key:1, dep:1, note:"Deployed airbags. NiMH pack — toggle if you want worst case.", packType:"nimh", pack:0, retail:24000, recon:5500, cur:0 },
-    { stock:"45222811", car:"2018 Toyota RAV4 Hybrid Ltd", meta:"219,934 mi · front end · no key", run:0, key:0, dep:0, note:"220k + no key. Pack age real — defaulted ON.", packType:"nimh", pack:1, retail:11000, recon:3800, cur:0 },
-    { stock:"45411534", car:"2014 Subaru XV Crosstrek Hybrid", meta:"84,156 mi · front end · AWD", run:1, key:1, dep:0, note:"Most balanced buy — runs, intact airbags, moderate miles.", packType:"nimh", pack:0, retail:8500, recon:1800, cur:125 },
-    { stock:"45377096", car:"2017 Kia Niro LX", meta:"94,557 mi · R side · stationary", run:0, key:1, dep:0, note:"Li-ion hybrid — no cheap pack rebuild.", packType:"liion", retail:9500, recon:2800, cur:25 },
-    { stock:"45361618", car:"2009 Toyota Highlander Hybrid Ltd", meta:"216,917 mi · rear + sides", run:1, key:1, dep:0, note:"Runs, but 217k — NiMH pack defaulted ON.", packType:"nimh", pack:1, retail:7500, recon:2500, cur:625 },
-    { stock:"45339581", car:"2013 Toyota Prius Five", meta:"179,430 mi · front end", run:1, key:1, dep:0, note:"Bread & butter — front-end runner. Pack ON at 179k.", packType:"nimh", pack:1, retail:7500, recon:1600, cur:25 },
-    { stock:"45216655", car:"2010 Toyota Prius IV", meta:"167,066 mi · front end", run:1, key:1, dep:0, note:"Runs & drives, intact airbags. Pack ON at 167k.", packType:"nimh", pack:1, retail:6500, recon:1600, cur:0 },
-    { stock:"45342749", car:"2007 Toyota Prius", meta:"exempt odo · front end · no key", run:0, key:0, dep:0, note:"No key + stationary + old. Pack almost certain — ON.", packType:"nimh", pack:1, retail:4000, recon:2200, cur:0 },
-    { stock:"45331756", car:"2011 Nissan Leaf SL", meta:"54,146 mi · L & R side · CLEAR title", run:1, key:1, dep:0, note:"Low miles but 2011 Leaf pack ~50% degraded, no cheap fix. Parts/wholesale only.", packType:"liion", retail:5500, recon:1800, cur:0 },
+    { stock:"45037244", car:"2022 Tesla Model Y Performance", meta:"58,715 mi · R front · AWD", run:1, key:1, dep:0, note:"Li-ion — no cheap pack. Crowd favorite, fees stack fast.", packType:"liion", retail:24000, recon:4500, cur:4550, az:30943, azn:59, azs:"AZ" },
+    { stock:"44843664", car:"2023 Tesla Model Y Long Range", meta:"exempt odo · L rear · AWD", run:0, key:1, dep:1, note:"Deployed airbags + Li-ion. Rear collision + safety reset.", packType:"liion", retail:25000, recon:6500, cur:2550, az:33590, azn:66, azs:"AZ" },
+    { stock:"45129458", car:"2014 Tesla Model S P85", meta:"exempt odo · front end · dash inop", run:0, key:0, dep:0, note:"No key + dead dash + Li-ion = buying blind on HV pack.", packType:"liion", retail:9000, recon:6000, cur:0, az:15558, azn:150, azs:"US" },
+    { stock:"44847399", car:"2025 Honda Civic Hybrid Sport", meta:"16,138 mi · front end", run:0, key:1, dep:1, note:"Near-new, but deployed airbags + Li-ion. Big recon line.", packType:"liion", retail:22000, recon:5500, cur:0, az:26837, azn:2281, azs:"US" },
+    { stock:"45361098", car:"2022 Toyota RAV4 Hybrid XSE", meta:"exempt odo · L side · stationary", run:0, key:1, dep:1, note:"Deployed airbags. NiMH pack — toggle if you want worst case.", packType:"nimh", pack:0, retail:24000, recon:5500, cur:0, az:29882, azn:2971, azs:"US" },
+    { stock:"45222811", car:"2018 Toyota RAV4 Hybrid Ltd", meta:"219,934 mi · front end · no key", run:0, key:0, dep:0, note:"220k + no key. Pack age real — defaulted ON.", packType:"nimh", pack:1, retail:11000, recon:3800, cur:0, az:19654, azn:2237, azs:"US" },
+    { stock:"45411534", car:"2014 Subaru XV Crosstrek Hybrid", meta:"84,156 mi · front end · AWD", run:1, key:1, dep:0, note:"Most balanced buy — runs, intact airbags, moderate miles.", packType:"nimh", pack:0, retail:8500, recon:1800, cur:125, az:10586, azn:818, azs:"US" },
+    { stock:"45377096", car:"2017 Kia Niro LX", meta:"94,557 mi · R side · stationary", run:0, key:1, dep:0, note:"Li-ion hybrid — no cheap pack rebuild.", packType:"liion", retail:9500, recon:2800, cur:25, az:10947, azn:4, azs:"AZ" },
+    { stock:"45361618", car:"2009 Toyota Highlander Hybrid Ltd", meta:"216,917 mi · rear + sides", run:1, key:1, dep:0, note:"Runs, but 217k — NiMH pack defaulted ON.", packType:"nimh", pack:1, retail:7500, recon:2500, cur:625, az:8900, azn:178, azs:"US" },
+    { stock:"45339581", car:"2013 Toyota Prius Five", meta:"179,430 mi · front end", run:1, key:1, dep:0, note:"Bread & butter — front-end runner. Pack ON at 179k.", packType:"nimh", pack:1, retail:7500, recon:1600, cur:25, az:8999, azn:5, azs:"AZ" },
+    { stock:"45216655", car:"2010 Toyota Prius IV", meta:"167,066 mi · front end", run:1, key:1, dep:0, note:"Runs & drives, intact airbags. Pack ON at 167k.", packType:"nimh", pack:1, retail:6500, recon:1600, cur:0, az:8250, azn:18, azs:"AZ" },
+    { stock:"45342749", car:"2007 Toyota Prius", meta:"exempt odo · front end · no key", run:0, key:0, dep:0, note:"No key + stationary + old. Pack almost certain — ON.", packType:"nimh", pack:1, retail:4000, recon:2200, cur:0, az:4995, azn:3, azs:"AZ" },
+    { stock:"45331756", car:"2011 Nissan Leaf SL", meta:"54,146 mi · L & R side · CLEAR title", run:1, key:1, dep:0, note:"Low miles but 2011 Leaf pack ~50% degraded, no cheap fix. Parts/wholesale only.", packType:"liion", retail:5500, recon:1800, cur:0, az:3995, azn:33, azs:"US" },
   ];
 
   const $ = id => document.getElementById(id);
@@ -303,6 +306,13 @@
     if (c.dep) f += '<span class="flag dep">DEPLOYED</span>';
     if (!c.key) f += '<span class="flag nokey">NO KEY</span>';
     return f;
+  }
+
+  // Arizona market reference: median asking price of clean-title used listings (national when AZ is thin).
+  function azCell(c){
+    if (!c.az) return "<span style='color:var(--ink-faint)'>—</span>";
+    const prov = c.azs === "AZ" ? `${c.azn} in AZ` : `US &middot; ${c.azn} comps`;
+    return `${money(c.az)}<span class="meta">${prov} &middot; clean asking</span>`;
   }
 
   function buildRows(){
@@ -319,6 +329,7 @@
       tr.innerHTML = `
         <td class="l"><span class="car">${c.car}</span> ${flags(c)}<span class="meta">${c.note}</span></td>
         <td class="l"><span class="stock">#${c.stock}</span><span class="meta">${c.meta}</span></td>
+        <td class="azmkt">${azCell(c)}</td>
         <td class="edit"><input type="number" data-i="${i}" data-f="retail" value="${c.retail}" step="250" aria-label="Target retail"></td>
         <td class="edit"><input type="number" data-i="${i}" data-f="recon" value="${c.recon}" step="100" aria-label="Recon"></td>
         ${packCell}

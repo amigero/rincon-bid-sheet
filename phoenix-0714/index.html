@@ -111,6 +111,8 @@
     padding: 9px 0; text-align: right; font-variant-numeric: tabular-nums;
   }
   .field input:focus { outline: none; }
+  .field select { width: 100%; border: 0; background: transparent; color: var(--ink); font: 600 15px/1 ui-monospace, "SF Mono", "Cascadia Mono", Menlo, Consolas, monospace; padding: 9px 0; cursor: pointer; }
+  .field select:focus { outline: none; }
   .field .inp:focus-within { border-color: var(--brass); box-shadow: 0 0 0 3px color-mix(in srgb, var(--brass) 22%, transparent); }
 
   /* table */
@@ -184,10 +186,9 @@
   <div class="assump">
     <button class="reset" id="reset" type="button">Reset defaults</button>
     <h2>Deal assumptions</h2>
-    <p>These drive every ceiling. Tune them to how you actually recon and sell, then leave them.</p>
+    <p>These drive every ceiling. IAA buyer, internet &amp; fixed fees are added automatically from the Nov-2024 Standard-Volume schedule based on each hammer price — there's no fee % to set. Tune the rest to how you actually recon and sell, then leave them.</p>
     <div class="fields">
-      <div class="field"><label for="a-fee">Auction fee %</label><div class="inp"><input id="a-fee" type="number" value="8" step="0.5"><span>%</span></div></div>
-      <div class="field"><label for="a-feeflat">Flat fees (gate+env+doc)</label><div class="inp"><span>$</span><input id="a-feeflat" type="number" value="180" step="10"></div></div>
+      <div class="field"><label for="a-bidtype">IAA bid type</label><div class="inp"><select id="a-bidtype"><option value="live">Live bid</option><option value="proxy">Proxy bid</option></select></div></div>
       <div class="field"><label for="a-transport">Transport to shop</label><div class="inp"><span>$</span><input id="a-transport" type="number" value="150" step="25"></div></div>
       <div class="field"><label for="a-margin">Target margin %</label><div class="inp"><input id="a-margin" type="number" value="22" step="1"><span>%</span></div></div>
       <div class="field"><label for="a-hold">Holding $/day</label><div class="inp"><span>$</span><input id="a-hold" type="number" value="12" step="1"></div></div>
@@ -227,7 +228,7 @@
   </div>
 
   <p class="foot">
-    <b>How the ceiling is built:</b> <code>Max bid = (Retail − Margin − Recon − Pack − Transport − Holding − Flat fees) ÷ (1 + Fee%)</code>. Margin is a % of target retail; the fee % is applied to the bid itself. <b>Retail = rebuilt/salvage-title AZ resale, not clean value.</b>
+    <b>How the ceiling is built:</b> the max bid is the highest hammer price where <code>bid + IAA buyer fee + internet fee + $140 fixed + recon + pack + transport + holding + margin ≤ retail</code>. IAA fees come straight from the Nov-2024 Standard-Volume schedule — the buyer fee is bracketed by hammer price (e.g. a $3,450 hammer carries $655 buyer + $110 internet + $140 fixed = $905 all-in), so the ceiling already absorbs them. The <b>+fees</b> line under each max bid is what you'll actually owe IAA on top of the hammer. <b>Retail = rebuilt/salvage-title AZ resale, not clean value. Sales tax is excluded</b> — resale inventory is TPT-exempt once you give IAA your AZ resale certificate, so don't bake it into the bid.
     <br><br>
     <b>The pack toggle</b> only appears for NiMH hybrids (Prius / RAV4H / Highlander / Crosstrek) you can rebuild from sourced modules — check it to bake in the worst case. Teslas, the Leaf, the Kia Niro and the 2025 Civic Hybrid run Li-ion packs with no cheap rebuild; their notes say so and you bid to worst case regardless.
     <br><br>
@@ -237,8 +238,42 @@
 
 <script>
   const DEFAULTS = {
-    fee: 8, feeflat: 180, transport: 150, margin: 22, hold: 12, days: 30, pack: 1800
+    bidtype: "live", transport: 150, margin: 22, hold: 12, days: 30, pack: 1800
   };
+
+  // IAA Standard-Volume buyer fee by hammer price (schedule effective Nov 4 2024).
+  // Verified against a real Rincon invoice: $3,450 hammer → $655 buyer fee (exact).
+  // Each pair is [upper price bound (exclusive), fee]. $10k+ = 7.5%, floored at $945.
+  const BUYER_FEE = [
+    [50,25],[100,45],[200,80],[300,130],[350,137.5],[400,145],[450,175],[500,185],
+    [550,205],[600,210],[700,240],[800,270],[900,295],[1000,320],[1200,375],[1300,395],
+    [1400,410],[1500,430],[1600,445],[1700,465],[1800,485],[2000,510],[2400,535],[2500,570],
+    [3000,610],[3500,655],[4000,705],[4500,725],[5000,750],[5500,775],[6000,800],[6500,825],
+    [7000,845],[7500,880],[8000,900],[8500,925],[10000,945]
+  ];
+  function buyerFee(bid){
+    for (const [ceil, fee] of BUYER_FEE) if (bid < ceil) return fee;
+    return Math.max(945, 0.075 * bid);
+  }
+  // Internet / virtual bid fee by hammer price. Live column = what Rincon pays ($110 at
+  // $3,450, verified); proxy pre-bids run ~$10 less.
+  function netFee(bid, type){
+    const live = bid<100?0 : bid<500?50 : bid<1000?65 : bid<1500?85 : bid<2000?95
+               : bid<4000?110 : bid<6000?125 : bid<8000?145 : 160;
+    return type==="proxy" ? Math.max(0, live-10) : live;
+  }
+  const FIXED_FEES = 105 + 20 + 15; // service $105 + title handling $20 + environmental $15, per unit
+
+  // Largest hammer bid whose (bid + every IAA fee) fits the budget left for bid+fees.
+  // Fees are step functions of the bid, so solve numerically rather than algebraically.
+  function solveMaxBid(budgetForBidPlusFees, type){
+    const avail = budgetForBidPlusFees - FIXED_FEES;
+    const cost = b => b + buyerFee(b) + netFee(b, type);
+    if (avail <= 0 || cost(0) > avail) return { bid: 0, fees: 0 };
+    let lo = 0, hi = Math.floor(avail);
+    while (lo < hi){ const mid = Math.ceil((lo + hi) / 2); if (cost(mid) <= avail) lo = mid; else hi = mid - 1; }
+    return { bid: lo, fees: buyerFee(lo) + netFee(lo, type) + FIXED_FEES };
+  }
 
   // 13 hybrid/EV lots from the Tucson run. retail = rebuilt-title AZ resale estimate.
   const CARS = [
@@ -296,7 +331,7 @@
   const $ = id => document.getElementById(id);
   const money = n => (n<0?"-$":"$") + Math.abs(Math.round(n)).toLocaleString("en-US");
   const A = {};
-  ["fee","feeflat","transport","margin","hold","days","pack"].forEach(k => A[k] = $("a-"+k));
+  ["bidtype","transport","margin","hold","days","pack"].forEach(k => A[k] = $("a-"+k));
 
   function flags(c){
     let f = "";
@@ -338,8 +373,7 @@
   }
 
   function compute(){
-    const fee = (+A.fee.value||0)/100;
-    const feeflat = +A.feeflat.value||0;
+    const type = A.bidtype.value;
     const transport = +A.transport.value||0;
     const marginPct = (+A.margin.value||0)/100;
     const holding = (+A.hold.value||0) * (+A.days.value||0);
@@ -350,19 +384,23 @@
     CARS.forEach((c, i) => {
       const pack = (c.packType==="nimh" && c.pack) ? packCost : 0;
       const margin = c.retail * marginPct;
-      const maxbid = (c.retail - margin - c.recon - pack - transport - holding - feeflat) / (1 + fee);
+      // budget left to cover (hammer bid + all IAA fees) after margin, recon, pack, transport, holding
+      const budget = c.retail - margin - c.recon - pack - transport - holding;
+      const { bid: maxbid, fees } = solveMaxBid(budget, type);
       const headroom = maxbid - c.cur;
 
       const mbEl = document.querySelector(`[data-mb="${i}"]`);
       const hrEl = document.querySelector(`[data-hr="${i}"]`);
       const callEl = document.querySelector(`[data-call="${i}"]`);
 
-      mbEl.textContent = maxbid > 0 ? money(maxbid) : money(0);
+      mbEl.innerHTML = maxbid > 0
+        ? `${money(maxbid)}<span class="meta">+${money(fees)} IAA fees</span>`
+        : `${money(0)}<span class="meta">no room</span>`;
 
       let cls, label;
       if (maxbid <= 0 || headroom <= 0) { cls="walk"; label="Walk"; }
       else if (headroom < 500) { cls="tight"; label="Tight"; }
-      else { cls="go"; label="Bid"; goCount++; capital += maxbid; grossMargin += margin; }
+      else { cls="go"; label="Bid"; goCount++; capital += maxbid + fees; grossMargin += margin; }
 
       hrEl.innerHTML = maxbid>0
         ? `<span class="${headroom>=0?'head-pos':'head-neg'}">${money(headroom)}</span>`
@@ -371,11 +409,11 @@
     });
 
     $("t-go").textContent = goCount;
-    $("t-cap").innerHTML = money(capital) + ' <small>if you win every green</small>';
+    $("t-cap").innerHTML = money(capital) + ' <small>all-in (bid + fees) if you win every green</small>';
     $("t-margin").innerHTML = money(grossMargin) + ' <small>target gross</small>';
   }
 
-  Object.values(A).forEach(inp => inp.addEventListener("input", compute));
+  Object.values(A).forEach(inp => { inp.addEventListener("input", compute); inp.addEventListener("change", compute); });
   $("reset").addEventListener("click", () => {
     Object.keys(DEFAULTS).forEach(k => A[k].value = DEFAULTS[k]);
     compute();
